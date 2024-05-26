@@ -3,10 +3,15 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { PrivyProvider } from "@privy-io/react-auth";
+import classNames from "classnames";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
 const privyAppID = "clw89wah801bp12ovcou2ri8u";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -14,8 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={classNames(
+          inter.className,
+          "min-h-screen bg-gray-100 font-sans antialiased"
+        )}
+      >
         <PrivyProvider
           appId={privyAppID}
           config={{
@@ -25,7 +35,9 @@ export default function RootLayout({
             },
           }}
         >
-          {children}
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>{children}</TooltipProvider>
+          </QueryClientProvider>
         </PrivyProvider>
       </body>
     </html>
