@@ -8,11 +8,12 @@ import { FarcasterClientAPI } from "@/services/farcasterClient";
 import { useExperimentalFarcasterSigner, usePrivy } from "@privy-io/react-auth";
 import { useQuery } from "@tanstack/react-query";
 
-export default function Profile({ fid }: { fid?: number }) {
+export default function Profile() {
   const { login, user: farcasterUser, logout } = usePrivy();
   const { requestFarcasterSignerFromWarpcast } =
     useExperimentalFarcasterSigner();
   const farcasterAccount = farcasterUser?.farcaster;
+  const fid = farcasterAccount?.fid || undefined;
 
   const { data } = useQuery({
     queryKey: ["profile-", fid],

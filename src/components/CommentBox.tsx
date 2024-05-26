@@ -1,4 +1,4 @@
-import { CornerDownLeft, Mic, Paperclip, Smile } from "lucide-react";
+import { CornerDownLeft, Paperclip, Smile } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -8,8 +8,40 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  ExternalEd25519Signer,
+  HubRestAPIClient,
+} from "@standard-crypto/farcaster-js";
+import { useExperimentalFarcasterSigner, usePrivy } from "@privy-io/react-auth";
 
 export default function CommentBox() {
+  const { user } = usePrivy();
+  const { signFarcasterMessage, getFarcasterSignerPublicKey } =
+    useExperimentalFarcasterSigner();
+
+  const farcasterAccount = user?.farcaster;
+
+  const cast = async () => {
+    const privySigner = new ExternalEd25519Signer(
+      signFarcasterMessage,
+      getFarcasterSignerPublicKey
+    );
+
+    const client = new HubRestAPIClient({
+      hubUrl: "https://hub.farcaster.standardcrypto.vc:2281",
+    });
+
+    if (!farcasterAccount?.fid) {
+      return console.error("Farcaster account not linked");
+    }
+
+    const submitCastResponse = await client.submitCast(
+      { text: "Hello world!" },
+      farcasterAccount?.fid,
+      privySigner
+    );
+  };
+
   return (
     <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
       <Label htmlFor="message" className="sr-only">
