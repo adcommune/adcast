@@ -5,20 +5,16 @@
  */
 import { Card } from "@/components/ui/card";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import classNames from "classnames";
 import { format } from "date-fns";
 
-export default function Cast({
-  text,
-  reactions,
-  replies,
-  author,
-  timestamp,
-  frames,
-}: CastWithInteractions) {
+export default function Cast(cast: CastWithInteractions) {
+  const { text, reactions, replies, author, timestamp, frames } = cast;
   const { recasts_count, likes_count } = reactions;
   const { count: reply_count } = replies;
   const { pfp_url, username, display_name } = author;
-  console.log(frames);
+  const frame = frames && frames[0];
+
   return (
     <Card
       key="1"
@@ -52,7 +48,17 @@ export default function Cast({
               </div>
             </div>
           </div>
-          <p className="mt-4 text-gray-500 dark:text-gray-300">{text}</p>
+          <p className="mt-4 text-gray-500 dark:text-gray-300">
+            {frame ? "" : text}
+            {frame && (
+              <img
+                src={frame.image}
+                className={classNames({
+                  "aspect-square": frame.image_aspect_ratio === "1:1",
+                })}
+              />
+            )}
+          </p>
           <div className="flex mt-6 justify-between items-center">
             <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
               <div className="flex items-center">
