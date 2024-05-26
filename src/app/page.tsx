@@ -13,19 +13,17 @@ export default function Home() {
   });
 
   return (
-    <main>
-      <Layout>
-        <CommentBox />
-        {data ? (
-          <div className="flex flex-col gap-3 mt-2">
-            {data?.casts.map((cast) => {
-              return <Cast key={cast.hash} {...cast} />;
-            })}
-          </div>
-        ) : (
-          <p>Fetching Casts</p>
-        )}
-      </Layout>
-    </main>
+    <>
+      <CommentBox />
+      {data ? (
+        <div className="flex flex-col gap-3 mt-2">
+          {data?.casts.map((cast) => {
+            return <Cast key={cast.hash} {...cast} />;
+          })}
+        </div>
+      ) : (
+        <p>Fetching Casts</p>
+      )}
+    </>
   );
 }
