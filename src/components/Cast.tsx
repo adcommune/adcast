@@ -39,7 +39,7 @@ export default function Cast(cast: CastWithInteractions) {
                 width="40"
               />
               <div className="ml-4">
-                <div className="uppercase tracking-wide text-sm text-black dark:text-white font-semibold">
+                <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                   {display_name}
                 </div>
                 <div className="text-gray-400 dark:text-gray-300">
