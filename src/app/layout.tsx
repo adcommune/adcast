@@ -10,15 +10,15 @@ import { Layout } from "@/components/Layout";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
-const privyAppID = "clw89wah801bp12ovcou2ri8u";
+const privyAppID = process.env.NEXT_PUBLIC_PRIVY_APP_ID as string;
 
 const queryClient = new QueryClient();
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type RootLayoutProps = Readonly<{
   children: React.ReactNode;
-}>) {
+}>;
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body

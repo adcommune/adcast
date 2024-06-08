@@ -2,7 +2,6 @@
 
 import Cast from "@/components/Cast";
 import CommentBox from "@/components/CommentBox";
-import { Layout } from "@/components/Layout";
 import { FarcasterClientAPI } from "@/services/farcasterClient";
 import { useQuery } from "@tanstack/react-query";
 
