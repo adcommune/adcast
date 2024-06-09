@@ -1,14 +1,9 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { BellIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import { Button } from "./ui/button";
-import CastModal from "./CastModal";
-import { useModal } from "@/context/ModalContext";
 
-function SidebarLayout({ children }: { children: React.ReactNode }) {
+const RootLayoutComponent = ({ children }: { children: React.ReactNode }) => {
   const { user } = usePrivy();
-  const { castModal } = useModal();
 
   return (
     <div className="flex min-h-full flex-col">
@@ -38,26 +33,9 @@ function SidebarLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-
-      <div className="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-1 py-2 sm:py-4 sm:px-6 lg:px-8 relative">
-        <aside className="sticky top-8 hidden w-44 shrink-0 lg:block"></aside>
-
-        <main className="flex-1 w-full">{children}</main>
-
-        <aside className="sticky top-8 hidden w-96 shrink-0 xl:block">
-          <Button
-            className="w-full"
-            onClick={() => {
-              castModal.set(true);
-            }}
-          >
-            Cast
-          </Button>
-        </aside>
-      </div>
-      <CastModal />
+      <main>{children}</main>
     </div>
   );
-}
+};
 
-export default SidebarLayout;
+export default RootLayoutComponent;
