@@ -6,7 +6,8 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import classNames from "classnames";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Layout } from "@/components/Layout";
+import SidebarLayout from "@/components/SidebarLayout";
+import { ModalProvider } from "@/context/ModalContext";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
@@ -38,9 +39,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <QueryClientProvider client={queryClient}>
             <TooltipProvider>
-              <main>
-                <Layout>{children}</Layout>
-              </main>
+              <ModalProvider>
+                <main>
+                  <SidebarLayout>{children}</SidebarLayout>
+                </main>
+              </ModalProvider>
             </TooltipProvider>
           </QueryClientProvider>
         </PrivyProvider>

@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/YCXjMGmJSp5
@@ -28,9 +30,9 @@ export default function Profile() {
   const hasSigner = Boolean(farcasterAccount?.signerPublicKey);
 
   return (
-    <div className="h-screen w-full">
-      <div className="rounded-lg shadow-lg">
-        <div className="h-24 bg-gray-600 rounded-t-lg" />
+    <div className="rounded-lg shadow-lg w-full">
+      <div className="h-24 bg-gray-600 rounded-t-lg" />
+      <div className="px-5">
         {connected && (
           <>
             <img
@@ -45,21 +47,21 @@ export default function Profile() {
               width="100"
             />
             <div className="text-center mt-2">
-              <h2 className="text-lg font-semibold">{user?.display_name}</h2>
+              <h2 className="text-xl font-semibold">{user?.display_name}</h2>
               <p className="text-gray-500">{user?.profile.bio.text}</p>
             </div>
             <div className="flex justify-around my-4">
               <div className="text-center">
-                <h3 className="font-semibold text-lg">
-                  {user?.follower_count}
-                </h3>
-                <p className="text-gray-500">Followers</p>
-              </div>
-              <div className="text-center">
-                <h3 className="font-semibold text-lg">
+                <h3 className="font-semibold text-md">
                   {user?.following_count}
                 </h3>
                 <p className="text-gray-500">Following</p>
+              </div>
+              <div className="text-center">
+                <h3 className="font-semibold text-md">
+                  {user?.follower_count}
+                </h3>
+                <p className="text-gray-500">Followers</p>
               </div>
             </div>
           </>
