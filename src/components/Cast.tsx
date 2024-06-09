@@ -1,10 +1,15 @@
 import { Card } from "@/components/ui/card";
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import {
+  CastWithInteractions,
+  ConversationConversation,
+} from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import classNames from "classnames";
 import { format } from "date-fns";
 import ReactPlayer from "react-player";
 
-export default function Cast(cast: CastWithInteractions) {
+export default function Cast(
+  cast: CastWithInteractions | ConversationConversation["cast"]
+) {
   const { text, reactions, replies, author, timestamp, frames, embeds } = cast;
   const { recasts_count, likes_count } = reactions;
   const { count: reply_count } = replies;
@@ -13,15 +18,12 @@ export default function Cast(cast: CastWithInteractions) {
   const embed = embeds && embeds[0];
 
   return (
-    <Card
-      key="1"
-      className="bg-white dark:bg-gray-800 w-full rounded-md sm:rounded-xl shadow-sm sm:shadow-md overflow-hidden"
-    >
+    <Card className="bg-white dark:bg-gray-800 w-full rounded-md shadow-sm sm:shadow-md overflow-hidden">
       <div className="md:flex w-full">
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-4 sm:p-8">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img
@@ -45,7 +47,7 @@ export default function Cast(cast: CastWithInteractions) {
               </div>
             </div>
           </div>
-          <p className="my-4 text-gray-500 dark:text-gray-300 text-sm md:text-base w-full">
+          <p className="my-4 text-gray-500 dark:text-gray-300 text-sm md:text-base">
             {frame ? "" : text}
           </p>
           <div>
@@ -62,8 +64,6 @@ export default function Cast(cast: CastWithInteractions) {
                 if (embed.url !== undefined) {
                   // @ts-ignore
                   const url = embed.url as string;
-
-                  console.log("Embed url", url);
 
                   if (url.endsWith(".mp4") || url.includes("video")) {
                     return <ReactPlayer url={url} controls={true} />;
