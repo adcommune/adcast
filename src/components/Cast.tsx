@@ -18,13 +18,13 @@ export default function Cast(cast: CastWithInteractions) {
   return (
     <Card
       key="1"
-      className="max-w-[500px] w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-3xl"
+      className="bg-white dark:bg-gray-800 w-full rounded-md sm:rounded-xl shadow-sm sm:shadow-md overflow-hidden"
     >
-      <div className="md:flex">
+      <div className="md:flex w-full">
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-8 w-full">
+        <div className="p-4 sm:p-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img
@@ -38,7 +38,7 @@ export default function Cast(cast: CastWithInteractions) {
                 }}
                 width="40"
               />
-              <div className="ml-4">
+              <div className="ml-2 sm:ml-4">
                 <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                   {display_name}
                 </div>
@@ -48,18 +48,20 @@ export default function Cast(cast: CastWithInteractions) {
               </div>
             </div>
           </div>
-          <p className="mt-4 text-gray-500 dark:text-gray-300">
+          <p className="my-4 text-gray-500 dark:text-gray-300 text-sm md:text-base w-full">
             {frame ? "" : text}
+          </p>
+          <div>
             {frame && (
               <img
                 src={frame.image}
-                className={classNames({
+                className={classNames("w-full", {
                   "aspect-square": frame.image_aspect_ratio === "1:1",
                 })}
               />
             )}
-          </p>
-          <div className="flex mt-6 justify-between items-center">
+          </div>
+          <div className="flex mt-4 sm:mt-6 justify-between items-center">
             <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
               <div className="flex items-center">
                 <HeartIcon className="h-4 w-4" />
