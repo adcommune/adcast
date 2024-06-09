@@ -2,7 +2,6 @@ import { usePrivy } from "@privy-io/react-auth";
 import { BellIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import AdLandBrand from "./Brand";
 import { Button } from "./ui/button";
 import CastModal from "./CastModal";
 import { useModal } from "@/context/ModalContext";
@@ -16,7 +15,7 @@ function SidebarLayout({ children }: { children: React.ReactNode }) {
       <header className="shrink-0 border-b border-gray-200 bg-white">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/">
-            <AdLandBrand className="w-40" />
+            <p className="font-bold text-2xl">AdCaster</p>
           </Link>
           <div className="flex items-center gap-x-8">
             <button

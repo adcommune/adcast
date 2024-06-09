@@ -1,19 +1,16 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/ZXXB7Tv
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Card } from "@/components/ui/card";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import classNames from "classnames";
 import { format } from "date-fns";
+import ReactPlayer from "react-player";
 
 export default function Cast(cast: CastWithInteractions) {
-  const { text, reactions, replies, author, timestamp, frames } = cast;
+  const { text, reactions, replies, author, timestamp, frames, embeds } = cast;
   const { recasts_count, likes_count } = reactions;
   const { count: reply_count } = replies;
   const { pfp_url, username, display_name } = author;
   const frame = frames && frames[0];
+  const embed = embeds && embeds[0];
 
   return (
     <Card
@@ -52,14 +49,35 @@ export default function Cast(cast: CastWithInteractions) {
             {frame ? "" : text}
           </p>
           <div>
-            {frame && (
+            {frame ? (
               <img
                 src={frame.image}
                 className={classNames("w-full", {
                   "aspect-square": frame.image_aspect_ratio === "1:1",
                 })}
               />
-            )}
+            ) : embed ? (
+              (() => {
+                // @ts-ignore
+                if (embed.url !== undefined) {
+                  // @ts-ignore
+                  const url = embed.url as string;
+
+                  console.log("Embed url", url);
+
+                  if (url.endsWith(".mp4") || url.includes("video")) {
+                    return <ReactPlayer url={url} controls={true} />;
+                  }
+                  // @ts-ignore
+                  return <img src={url} className="w-full" />;
+                  // @ts-ignore
+                } else if (embed.cast_id !== undefined) {
+                  console.log("Embed cast id not supported yet");
+                  return <></>;
+                }
+                return null;
+              })()
+            ) : null}
           </div>
           <div className="flex mt-4 sm:mt-6 justify-between items-center">
             <div className="flex space-x-4 text-gray-400 dark:text-gray-300">

@@ -1,0 +1,1 @@
+export const channelId = "art";
