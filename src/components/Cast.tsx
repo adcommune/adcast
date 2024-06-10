@@ -23,7 +23,7 @@ export default function Cast(
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-4 sm:p-6">
+        <div className="p-4 sm:p-6 w-full">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img
@@ -47,14 +47,14 @@ export default function Cast(
               </div>
             </div>
           </div>
-          <p className="my-4 text-gray-500 dark:text-gray-300 text-sm md:text-base">
+          <p className="my-4 text-gray-900 dark:text-gray-300 text-sm md:text-base">
             {frame ? "" : text}
           </p>
-          <div>
+          <div className="w-full">
             {frame ? (
               <img
                 src={frame.image}
-                className={classNames("w-full", {
+                className={classNames("w-full rounded-md", {
                   "aspect-square": frame.image_aspect_ratio === "1:1",
                 })}
               />
@@ -69,7 +69,12 @@ export default function Cast(
                     return <ReactPlayer url={url} controls={true} />;
                   }
                   // @ts-ignore
-                  return <img src={url} className="w-full" />;
+                  return (
+                    <img
+                      src={url}
+                      className="w-full aspect-square rounded-md object-contain bg-slate-100"
+                    />
+                  );
                   // @ts-ignore
                 } else if (embed.cast_id !== undefined) {
                   console.log("Embed cast id not supported yet");
