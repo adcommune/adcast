@@ -4,7 +4,7 @@ import {
   ConversationConversation,
 } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import classNames from "classnames";
-import { format } from "date-fns";
+import { formatDistance } from "date-fns";
 import ReactPlayer from "react-player";
 
 export default function Cast(
@@ -100,7 +100,7 @@ export default function Cast(
               </div>
             </div>
             <div className="text-gray-400 dark:text-gray-300">
-              {format(timestamp, "MMM d, yyyy")}
+              {formatDistance(timestamp, Date.now())} ago
             </div>
           </div>
         </div>
