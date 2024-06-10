@@ -77,7 +77,7 @@ export default function Cast(
                   );
                   // @ts-ignore
                 } else if (embed.cast_id !== undefined) {
-                  console.log("Embed cast id not supported yet");
+                  console.log({ embed, cast });
                   return <></>;
                 }
                 return null;
