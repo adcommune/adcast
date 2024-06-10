@@ -13,7 +13,7 @@ const CastPage = ({ params: { hash } }: { params: { hash: string } }) => {
   });
 
   return (
-    <div className="overflow-y-scroll max-h-[90vh]">
+    <div className="overflow-y-scroll">
       {data?.conversation.cast && <Cast {...data.conversation.cast} />}
       <div className="flex flex-col gap-2 m-2">
         {data?.conversation.cast.direct_replies?.map((cast) => {

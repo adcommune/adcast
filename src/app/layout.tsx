@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalProvider } from "@/context/ModalContext";
-import RootLayoutComponent from "@/components/RootLayout";
 import FeedLayout from "@/components/FeedLayout";
 
 const inter = Montserrat({ subsets: ["latin"] });
@@ -41,9 +40,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <QueryClientProvider client={queryClient}>
             <TooltipProvider>
               <ModalProvider>
-                <RootLayoutComponent>
+                <main>
                   <FeedLayout>{children}</FeedLayout>
-                </RootLayoutComponent>
+                </main>
               </ModalProvider>
             </TooltipProvider>
           </QueryClientProvider>
