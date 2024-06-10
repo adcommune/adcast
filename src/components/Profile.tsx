@@ -30,22 +30,24 @@ export default function Profile() {
   const hasSigner = Boolean(farcasterAccount?.signerPublicKey);
 
   return (
-    <div className="rounded-lg shadow-lg w-full">
+    <div className="rounded-lg shadow-lg w-full bg-white">
       <div className="h-24 bg-gray-600 rounded-t-lg" />
       <div className="px-5">
         {connected && (
           <>
-            <img
-              alt="User avatar"
-              className="rounded-full -mt-12 border-4 border-white mx-auto"
-              height="100"
-              src={user?.pfp_url}
-              style={{
-                aspectRatio: "100/100",
-                objectFit: "cover",
-              }}
-              width="100"
-            />
+            {farcasterUser?.farcaster?.pfp && (
+              <img
+                alt="User avatar"
+                className="rounded-full -mt-12 border-4 border-white mx-auto"
+                height="100"
+                src={farcasterUser?.farcaster?.pfp}
+                style={{
+                  aspectRatio: "100/100",
+                  objectFit: "cover",
+                }}
+                width="100"
+              />
+            )}
             <div className="text-center mt-2">
               <h2 className="text-xl font-semibold">{user?.display_name}</h2>
               <p className="text-gray-500">{user?.profile.bio.text}</p>

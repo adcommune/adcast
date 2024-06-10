@@ -1,8 +1,7 @@
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <p>Welcome to the home page</p>
+    <div className="w-full text-center">
+      <p className="font-bold text-xl">Welcome to the AdCaster</p>
     </div>
   );
 };
