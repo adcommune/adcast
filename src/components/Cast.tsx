@@ -6,6 +6,7 @@ import {
 import classNames from "classnames";
 import { formatDistance } from "date-fns";
 import ReactPlayer from "react-player";
+import Link from "next/link";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -16,6 +17,8 @@ export default function Cast(
   const { pfp_url, username, display_name } = author;
   const frame = frames && frames[0];
   const embed = embeds && embeds[0];
+
+  const text_splitted = text.replaceAll("\n", " \n ").split(" ");
 
   return (
     <Card className="bg-white dark:bg-gray-800 w-full rounded-md shadow-sm sm:shadow-md overflow-hidden">
@@ -48,7 +51,38 @@ export default function Cast(
             </div>
           </div>
           <p className="my-4 text-gray-900 dark:text-gray-300 text-sm md:text-base">
-            {frame ? "" : text}
+            {frame
+              ? ""
+              : (() => {
+                  return text_splitted.map((word, index) => {
+                    if (word === "\n") return <br key={index} />;
+                    // check if word is an @username
+                    if (word.startsWith("@")) {
+                      // extract username
+                      const username = word.slice(1);
+                      console.log({
+                        profiles: cast.mentioned_profiles,
+                        username,
+                      });
+                      const fid = cast.mentioned_profiles.find(
+                        (profile) => profile.username === username
+                      )?.fid;
+                      // return a link to the profile page
+                      if (fid)
+                        return (
+                          <Link
+                            key={index}
+                            href={`/profile/${fid}`}
+                            className="font-bold text-blue-500 hover:text-blue-400"
+                          >
+                            {word + " "}
+                          </Link>
+                        );
+                    }
+                    // return the word as is
+                    return <span key={index}>{word + " "}</span>;
+                  });
+                })()}
           </p>
           <div className="w-full">
             {frame ? (
