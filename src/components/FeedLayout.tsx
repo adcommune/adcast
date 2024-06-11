@@ -78,7 +78,7 @@ const FeedLayout = ({ children }: { children: React.ReactNode }) => {
             <Button onClick={login}>Login</Button>
           )}
         </aside>
-        <main className="w-full sm:w-2/5 px-2 sm:px-0 pt-16">
+        <main className="w-full sm:w-2/5 px-2 sm:px-0 sm:pt-4">
           <Feed />
         </main>
         <aside className="sticky top-0 hidden w-2/5 shrink-0 sm:flex py-4 h-screen">
