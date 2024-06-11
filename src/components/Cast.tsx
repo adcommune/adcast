@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { formatDistance } from "date-fns";
 import ReactPlayer from "react-player";
 import Link from "next/link";
+import HoveredProfile from "./HoveredProfile";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -29,21 +30,27 @@ export default function Cast(
         <div className="p-4 sm:p-6 w-full">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <img
-                alt="Profile picture"
-                className="rounded-full"
-                height="40"
-                src={pfp_url}
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
+              <Link href={`/profile/${author.fid}`}>
+                <HoveredProfile fid={author.fid}>
+                  <img
+                    alt="Profile picture"
+                    className="rounded-full hover:ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
+                    height="40"
+                    src={pfp_url}
+                    style={{
+                      aspectRatio: "40/40",
+                      objectFit: "cover",
+                    }}
+                    width="40"
+                  />
+                </HoveredProfile>
+              </Link>
               <div className="ml-2 sm:ml-4">
-                <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
-                  {display_name}
-                </div>
+                <Link href={`/profile/${author.fid}`}>
+                  <div className="tracking-wide text-sm text-black dark:text-white font-semibold hover:underline">
+                    {display_name}
+                  </div>
+                </Link>
                 <div className="text-gray-400 dark:text-gray-300">
                   @{username}
                 </div>
