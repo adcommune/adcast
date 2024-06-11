@@ -2,6 +2,7 @@ import { FarcasterClientAPI } from "@/services/farcasterClient";
 import { useQuery } from "@tanstack/react-query";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Button } from "./ui/button";
+import { useState } from "react";
 
 type HoverProfileProps = {
   fid: number;
@@ -9,16 +10,22 @@ type HoverProfileProps = {
 };
 
 const HoveredProfile = ({ fid, children }: HoverProfileProps) => {
+  const [open, setOpen] = useState(false);
   const { data } = useQuery({
     queryKey: ["profile-", fid],
     queryFn: async () => new FarcasterClientAPI().fetchProfile(fid),
-    enabled: !!fid,
+    enabled: !!fid && open,
   });
 
   const user = data?.user;
 
   return (
-    <HoverCard>
+    <HoverCard
+      onOpenChange={(open) => {
+        setOpen(open);
+      }}
+      open={open && Boolean(user)}
+    >
       <HoverCardTrigger asChild>{children}</HoverCardTrigger>
       <HoverCardContent>
         <div>
