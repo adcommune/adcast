@@ -30,7 +30,7 @@ export default function Cast(
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-4 w-full flex flex-col">
+        <div className="p-2 sm:p-4 w-full flex flex-col">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <Link href={`/profile/${author.fid}`} prefetch={false}>
@@ -124,7 +124,7 @@ export default function Cast(
                       return (
                         <Button
                           key={button.title + "-" + i}
-                          className=""
+                          className="text-xs sm:text-sm"
                           disabled
                         >
                           {button.title}
