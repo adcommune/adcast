@@ -8,6 +8,7 @@ import { formatDistance } from "date-fns";
 import ReactPlayer from "react-player";
 import Link from "next/link";
 import HoveredProfile from "./HoveredProfile";
+import EmbeddedCast from "./EmbeddedCast";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -101,6 +102,9 @@ export default function Cast(
               />
             ) : embed ? (
               (() => {
+                if (cast.replies) {
+                  console.log(cast);
+                }
                 // @ts-ignore
                 if (embed.url !== undefined) {
                   // @ts-ignore
@@ -118,8 +122,9 @@ export default function Cast(
                   );
                   // @ts-ignore
                 } else if (embed.cast_id !== undefined) {
-                  console.log({ embed, cast });
-                  return <></>;
+                  console.log(embed);
+                  // @ts-ignore
+                  return <EmbeddedCast cast_id={embed.cast_id.hash} />;
                 }
                 return null;
               })()

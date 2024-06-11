@@ -5,10 +5,14 @@ import {
 } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 
 export class FarcasterClientAPI {
-  async fetchCast(
+  async fetchCast(cast_id: string): Promise<{ cast: CastWithInteractions }> {
+    return fetch(`/api/cast/${cast_id}`).then((res) => res.json());
+  }
+
+  async fetchConversation(
     hash: string
   ): Promise<{ conversation: ConversationConversation }> {
-    return fetch(`/api/cast/${hash}`).then((res) => res.json());
+    return fetch(`/api/conversation/${hash}`).then((res) => res.json());
   }
 
   async fetchFeed(): Promise<{ casts: CastWithInteractions[] }> {
