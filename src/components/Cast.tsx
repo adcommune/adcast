@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   CastWithInteractions,
   ConversationConversation,
@@ -9,6 +9,7 @@ import ReactPlayer from "react-player";
 import Link from "next/link";
 import HoveredProfile from "./HoveredProfile";
 import EmbeddedCast from "./EmbeddedCast";
+import { Button } from "./ui/button";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -19,6 +20,8 @@ export default function Cast(
   const { pfp_url, username, display_name } = author;
   const frame = frames && frames[0];
   const embed = embeds && embeds[0];
+
+  console.log({ frame });
 
   const text_splitted = text.replaceAll("\n", " \n ").split(" ");
 
@@ -31,7 +34,7 @@ export default function Cast(
         <div className="p-4 sm:p-6 w-full">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link href={`/profile/${author.fid}`}>
+              <Link href={`/profile/${author.fid}`} prefetch={false}>
                 <HoveredProfile fid={author.fid}>
                   <img
                     alt="Profile picture"
@@ -47,7 +50,7 @@ export default function Cast(
                 </HoveredProfile>
               </Link>
               <div className="ml-2 sm:ml-4">
-                <Link href={`/profile/${author.fid}`}>
+                <Link href={`/profile/${author.fid}`} prefetch={false}>
                   <div className="tracking-wide text-sm text-black dark:text-white font-semibold hover:underline">
                     {display_name}
                   </div>
@@ -68,10 +71,7 @@ export default function Cast(
                     if (word.startsWith("@")) {
                       // extract username
                       const username = word.slice(1);
-                      console.log({
-                        profiles: cast.mentioned_profiles,
-                        username,
-                      });
+
                       const fid = cast.mentioned_profiles.find(
                         (profile) => profile.username === username
                       )?.fid;
@@ -81,6 +81,7 @@ export default function Cast(
                           <Link
                             key={index}
                             href={`/profile/${fid}`}
+                            prefetch={false}
                             className="font-bold text-blue-500 hover:text-blue-400"
                           >
                             {word + " "}
@@ -94,17 +95,33 @@ export default function Cast(
           </p>
           <div className="w-full">
             {frame ? (
-              <img
-                src={frame.image}
-                className={classNames("w-full rounded-md", {
-                  "aspect-square": frame.image_aspect_ratio === "1:1",
-                })}
-              />
+              <Card className="bg-blue-200">
+                <CardContent className="p-2">
+                  <img
+                    src={frame.image}
+                    className={classNames("w-full rounded-md", {
+                      "aspect-square": frame.image_aspect_ratio === "1:1",
+                    })}
+                  />
+                </CardContent>
+                {frame.buttons?.length && (
+                  <CardFooter
+                    className={classNames("grid grid-cols-1 p-2 gap-1", {
+                      "grid-cols-2": frame.buttons?.length >= 2,
+                    })}
+                  >
+                    {frame.buttons?.map((button, i) => {
+                      return (
+                        <Button className="" disabled>
+                          {button.title}
+                        </Button>
+                      );
+                    })}
+                  </CardFooter>
+                )}
+              </Card>
             ) : embed ? (
               (() => {
-                if (cast.replies) {
-                  console.log(cast);
-                }
                 // @ts-ignore
                 if (embed.url !== undefined) {
                   // @ts-ignore
@@ -122,7 +139,6 @@ export default function Cast(
                   );
                   // @ts-ignore
                 } else if (embed.cast_id !== undefined) {
-                  console.log(embed);
                   // @ts-ignore
                   return <EmbeddedCast cast_id={embed.cast_id.hash} />;
                 }

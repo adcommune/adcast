@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 export default function Feed() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["feed"],
     queryFn: async () => new FarcasterClientAPI().fetchFeed(),
   });
@@ -21,7 +21,9 @@ export default function Feed() {
         );
       })}
     </div>
-  ) : (
+  ) : isLoading ? (
     <p>Fetching Casts</p>
+  ) : (
+    <p>...</p>
   );
 }
