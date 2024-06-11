@@ -8,7 +8,7 @@ const CastPage = ({ params: { hash } }: { params: { hash: string } }) => {
   const { data } = useQuery({
     queryKey: ["cast-", hash],
     queryFn: async () => {
-      return new FarcasterClientAPI().fetchCast(hash);
+      return new FarcasterClientAPI().fetchConversation(hash);
     },
   });
 
