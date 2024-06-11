@@ -30,23 +30,23 @@ export default function Cast(
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-4 w-full flex flex-col">
+        <div className="p-2 sm:p-4 w-full flex flex-col">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <Link href={`/profile/${author.fid}`} prefetch={false}>
-                {/* <HoveredProfile fid={author.fid}> */}
-                <img
-                  alt="Profile picture"
-                  className="rounded-full hover:ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
-                  height="40"
-                  src={pfp_url}
-                  style={{
-                    aspectRatio: "40/40",
-                    objectFit: "cover",
-                  }}
-                  width="40"
-                />
-                {/* </HoveredProfile> */}
+                <HoveredProfile fid={author.fid}>
+                  <img
+                    alt="Profile picture"
+                    className="rounded-full hover:ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
+                    height="40"
+                    src={pfp_url}
+                    style={{
+                      aspectRatio: "40/40",
+                      objectFit: "cover",
+                    }}
+                    width="40"
+                  />
+                </HoveredProfile>
               </Link>
               <div className="ml-2 sm:ml-4">
                 <Link href={`/profile/${author.fid}`} prefetch={false}>
@@ -124,7 +124,7 @@ export default function Cast(
                       return (
                         <Button
                           key={button.title + "-" + i}
-                          className=""
+                          className="text-xs sm:text-sm"
                           disabled
                         >
                           {button.title}
