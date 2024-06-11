@@ -17,7 +17,7 @@ const ProfileComponent = ({
   const user = data?.user;
 
   return (
-    <div className="rounded-lg shadow-lg w-full bg-white">
+    <div className="rounded-lg shadow-lg w-full bg-white pb-5">
       <div className="h-24 bg-gray-600 rounded-t-lg" />
       <div className="px-5">
         {user ? (

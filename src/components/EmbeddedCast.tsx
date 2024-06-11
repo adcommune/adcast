@@ -11,8 +11,6 @@ const EmbeddedCast = ({ cast_id }: { cast_id: string }) => {
 
   const cast = data?.cast;
 
-  console.log({ embeddedCast: cast });
-
   return (
     <Card className="p-0">
       <CardHeader className="pb-2">

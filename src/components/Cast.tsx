@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   CastWithInteractions,
   ConversationConversation,
@@ -9,6 +9,8 @@ import ReactPlayer from "react-player";
 import Link from "next/link";
 import HoveredProfile from "./HoveredProfile";
 import EmbeddedCast from "./EmbeddedCast";
+import { Button } from "./ui/button";
+import OgRenderer from "./OgRenderer";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -23,31 +25,31 @@ export default function Cast(
   const text_splitted = text.replaceAll("\n", " \n ").split(" ");
 
   return (
-    <Card className="bg-white dark:bg-gray-800 w-full rounded-md shadow-sm sm:shadow-md overflow-hidden">
+    <Card className="bg-white p-0 dark:bg-gray-800 w-full rounded-md shadow-sm sm:shadow-md overflow-hidden">
       <div className="md:flex w-full">
         <div className="md:flex-shrink-0">
           <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
         </div>
-        <div className="p-4 sm:p-6 w-full">
+        <div className="p-4 w-full flex flex-col">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link href={`/profile/${author.fid}`}>
-                <HoveredProfile fid={author.fid}>
-                  <img
-                    alt="Profile picture"
-                    className="rounded-full hover:ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
-                    height="40"
-                    src={pfp_url}
-                    style={{
-                      aspectRatio: "40/40",
-                      objectFit: "cover",
-                    }}
-                    width="40"
-                  />
-                </HoveredProfile>
+              <Link href={`/profile/${author.fid}`} prefetch={false}>
+                {/* <HoveredProfile fid={author.fid}> */}
+                <img
+                  alt="Profile picture"
+                  className="rounded-full hover:ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
+                  height="40"
+                  src={pfp_url}
+                  style={{
+                    aspectRatio: "40/40",
+                    objectFit: "cover",
+                  }}
+                  width="40"
+                />
+                {/* </HoveredProfile> */}
               </Link>
               <div className="ml-2 sm:ml-4">
-                <Link href={`/profile/${author.fid}`}>
+                <Link href={`/profile/${author.fid}`} prefetch={false}>
                   <div className="tracking-wide text-sm text-black dark:text-white font-semibold hover:underline">
                     {display_name}
                   </div>
@@ -58,20 +60,28 @@ export default function Cast(
               </div>
             </div>
           </div>
-          <p className="my-4 text-gray-900 dark:text-gray-300 text-sm md:text-base">
-            {frame
-              ? ""
-              : (() => {
-                  return text_splitted.map((word, index) => {
+          <p className="text-gray-900 my-2 dark:text-gray-300 text-sm md:text-base">
+            {!frame &&
+              (() => {
+                return text_splitted
+                  .map((word) => {
+                    // @ts-ignore
+                    if (embed && embed.url !== undefined) {
+                      // @ts-ignore
+                      const url = embed.url as string;
+
+                      if (word === url) return "";
+                    }
+
+                    return word;
+                  })
+                  .map((word, index) => {
                     if (word === "\n") return <br key={index} />;
                     // check if word is an @username
                     if (word.startsWith("@")) {
                       // extract username
                       const username = word.slice(1);
-                      console.log({
-                        profiles: cast.mentioned_profiles,
-                        username,
-                      });
+
                       const fid = cast.mentioned_profiles.find(
                         (profile) => profile.username === username
                       )?.fid;
@@ -81,6 +91,7 @@ export default function Cast(
                           <Link
                             key={index}
                             href={`/profile/${fid}`}
+                            prefetch={false}
                             className="font-bold text-blue-500 hover:text-blue-400"
                           >
                             {word + " "}
@@ -90,21 +101,41 @@ export default function Cast(
                     // return the word as is
                     return <span key={index}>{word + " "}</span>;
                   });
-                })()}
+              })()}
           </p>
           <div className="w-full">
             {frame ? (
-              <img
-                src={frame.image}
-                className={classNames("w-full rounded-md", {
-                  "aspect-square": frame.image_aspect_ratio === "1:1",
-                })}
-              />
+              <Card className="bg-gray-200">
+                <CardContent className="p-2">
+                  <img
+                    src={frame.image}
+                    className={classNames("w-full rounded-md", {
+                      "aspect-square": frame.image_aspect_ratio === "1:1",
+                    })}
+                  />
+                </CardContent>
+                {frame.buttons?.length && (
+                  <CardFooter
+                    className={classNames("grid grid-cols-1 p-2 gap-1", {
+                      "grid-cols-2": frame.buttons?.length >= 2,
+                    })}
+                  >
+                    {frame.buttons?.map((button, i) => {
+                      return (
+                        <Button
+                          key={button.title + "-" + i}
+                          className=""
+                          disabled
+                        >
+                          {button.title}
+                        </Button>
+                      );
+                    })}
+                  </CardFooter>
+                )}
+              </Card>
             ) : embed ? (
               (() => {
-                if (cast.replies) {
-                  console.log(cast);
-                }
                 // @ts-ignore
                 if (embed.url !== undefined) {
                   // @ts-ignore
@@ -113,16 +144,11 @@ export default function Cast(
                   if (url.endsWith(".mp4") || url.includes("video")) {
                     return <ReactPlayer url={url} controls={true} />;
                   }
+
                   // @ts-ignore
-                  return (
-                    <img
-                      src={url}
-                      className="w-full aspect-square rounded-md object-contain bg-slate-100"
-                    />
-                  );
+                  return <OgRenderer url={url} />;
                   // @ts-ignore
                 } else if (embed.cast_id !== undefined) {
-                  console.log(embed);
                   // @ts-ignore
                   return <EmbeddedCast cast_id={embed.cast_id.hash} />;
                 }
