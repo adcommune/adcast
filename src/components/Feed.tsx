@@ -16,6 +16,7 @@ export default function Feed() {
   } = useInfiniteQuery({
     queryKey: ["feed"],
     queryFn: async ({ pageParam }: any) => new FarcasterClientAPI().fetchFeed({ cursor: pageParam }),
+    initialPageParam: 0,
     getNextPageParam: (lastPage: any) => lastPage.next?.cursor || false,
   });
 
