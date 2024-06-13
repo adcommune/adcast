@@ -11,6 +11,7 @@ import HoveredProfile from "./HoveredProfile";
 import EmbeddedCast from "./EmbeddedCast";
 import { Button } from "./ui/button";
 import OgRenderer from "./OgRenderer";
+import CastFrame from "./CastFrame";
 
 export default function Cast(
   cast: CastWithInteractions | ConversationConversation["cast"]
@@ -105,35 +106,7 @@ export default function Cast(
           </p>
           <div className="w-full">
             {frame ? (
-              <Card className="bg-gray-200">
-                <CardContent className="p-2">
-                  <img
-                    src={frame.image}
-                    className={classNames("w-full rounded-md", {
-                      "aspect-square": frame.image_aspect_ratio === "1:1",
-                    })}
-                  />
-                </CardContent>
-                {frame.buttons?.length && (
-                  <CardFooter
-                    className={classNames("grid grid-cols-1 p-2 gap-1", {
-                      "grid-cols-2": frame.buttons?.length >= 2,
-                    })}
-                  >
-                    {frame.buttons?.map((button, i) => {
-                      return (
-                        <Button
-                          key={button.title + "-" + i}
-                          className="text-xs sm:text-sm"
-                          disabled
-                        >
-                          {button.title}
-                        </Button>
-                      );
-                    })}
-                  </CardFooter>
-                )}
-              </Card>
+              <CastFrame frame={frame} />
             ) : embed ? (
               (() => {
                 // @ts-ignore
